@@ -1,6 +1,8 @@
 public class Student 
 {
-    public Student()
+    private int grade;
+
+    public Student(int g)
     {
         System.out.println("hi");
     }
