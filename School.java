@@ -32,9 +32,8 @@ public class School
     {
         for(int i = 0; i < times; i++)
         {
-            double studentGPA = Math.random()*4;
 
-            Student s = new Student(studentGPA);
+            Student s = new Student();
             students.add(s);
         }
     }

@@ -6,11 +6,16 @@ public class Student
 {
     private double gpa;
     private String name;
+    private String firstName;
+    private String lastName;
 
-    public Student(double g) throws IOException
+    public Student() throws IOException
     {
-        generateName();
-        gpa = g;
+        firstName = generateName();
+        lastName = generateName();
+        name = firstName + " " + lastName;
+        gpa = Math.random()*4;
+        gpa = Math.round(gpa*100.0)/100.0;
     }
 
     public String getName()
@@ -23,7 +28,7 @@ public class Student
         return gpa;
     }
 
-    private void generateName() throws IOException
+    private String generateName() throws IOException
     {
         File file = new File("studentnames.txt");
         RandomAccessFile names = new RandomAccessFile(file, "r");
@@ -33,12 +38,12 @@ public class Student
 
         if(studentName.equals("") || studentName.length() <= 1)
         {
-            this.generateName();
+            return generateName();
         }
         else
         {
             studentName = studentName.substring(0, 1).toUpperCase() + studentName.substring(1);
-            name = studentName;
+            return studentName;
         }
     }
 }
