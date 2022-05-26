@@ -32,7 +32,6 @@ public class School
     {
         for(int i = 0; i < times; i++)
         {
-
             Student s = new Student();
             students.add(s);
         }
@@ -104,7 +103,9 @@ public class School
 
     public void manageTeachers()
     {
-        
+        viewTeachers();
+        System.out.println("\nWhat would you like to do?");
+        System.out.println("1. View Teachers 2. Add Teacher\n3. Remove Teacher\n4. Exit");
     }
 
     public void manageStudents()
