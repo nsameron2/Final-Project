@@ -7,8 +7,6 @@ public class Main
 
         School qwertyuiop = new School("qwertyuiop");
 
-        qwertyuiop.makeTeachers(10);
-        qwertyuiop.makeStudents(10);
 
         // qwertyuiop.viewTeachers();
         // qwertyuiop.viewStudents();

@@ -5,12 +5,20 @@ import java.io.IOException;
 public class School 
 {
     private String name;
+
+    public double balance = 1000;
+
+    int days = 0;
+
     ArrayList<Teacher> teachers = new ArrayList<Teacher>();
     ArrayList<Student> students = new ArrayList<Student>();
     
-    public School(String n)
+    public School(String n) throws IOException
     {
         name = n;
+
+        makeTeachers(3);
+        makeStudents(10);
     }
 
     public String getName()
@@ -39,7 +47,7 @@ public class School
 
 
 
-    public void manage()
+    public void manage() throws IOException
     {
 
         System.out.println("Welcome to " + getName() + " 's management system.");
@@ -51,7 +59,7 @@ public class School
 
         while(!exit)
         {
-            System.out.println("\n1. View Teachers\n2. View Students\n3. Manage Teachers\n4. Manage Students\n5. Manage School\n6. Exit");
+            System.out.println("\n1. View Teachers\n2. View Students\n3. Manage Teachers\n4. Manage Students\n5. Manage School\n6.Next Day\n7. Exit");
             System.out.print(">  ");
             int choice = keyboard.nextInt();
 
@@ -73,6 +81,8 @@ public class School
                     manageSchool();
                     break;
                 case 6:
+                    day();
+                case 7:
                     exit = true;
                     break;
                 default:
@@ -88,7 +98,7 @@ public class School
         System.out.println("\n\u001B[32m" + "Teachers: " + "\u001B[0m");
         for(int i = 0; i < teachers.size(); i++)
         {
-            System.out.println((i+1) + ". " + teachers.get(i).getName());
+            System.out.println((i+1) + ". " + teachers.get(i).getName() + "\tHappiness: " + teachers.get(i).getHappiness() + "\tSalary: " + teachers.get(i).getSalary());
         }
     }
 
@@ -101,11 +111,44 @@ public class School
         }
     }
 
-    public void manageTeachers()
+    public void manageTeachers() throws IOException
     {
-        viewTeachers();
-        System.out.println("\nWhat would you like to do?");
-        System.out.println("1. View Teachers 2. Add Teacher\n3. Remove Teacher\n4. Exit");
+        boolean exit = false;
+        Scanner keyboard = new Scanner(System.in);
+        while(!exit)
+        {
+            System.out.println("\nWhat would you like to do?");
+            System.out.println("1. View Teachers 2. Hire Teacher\n3. Fire Teacher\n4. Exit");
+            System.out.print(">  ");
+
+            int choice = keyboard.nextInt();
+
+            switch(choice)
+            {
+                case 1:
+                    viewTeachers();
+                    break;
+                case 2:
+
+                    hireTeacher();
+                    break;
+                case 3:
+                    viewTeachers();
+                    System.out.println("Which teacher would you like to fire?");
+                    System.out.print(">  ");
+
+                    choice = keyboard.nextInt();
+
+                    fireTeacher(choice);
+                    break;
+                case 4:
+                    exit = true;
+                    break;
+                default:
+                    System.out.println("Invalid choice.");
+                    break;
+            }
+        }
     }
 
     public void manageStudents()
@@ -116,5 +159,66 @@ public class School
     public void manageSchool()
     {
         
+    }
+
+    private void hireTeacher() throws IOException
+    {
+        int rand = (int)(Math.random()*5)+3;
+        ArrayList<Teacher> avail = new ArrayList<Teacher>();
+        for(int i = 0; i < rand; i++)
+        {
+            Teacher temp = new Teacher();
+            avail.add(temp);
+        }
+
+        for(int i = 0; i < avail.size(); i++)
+        {
+            System.out.println((i+1) + ". " + avail.get(i).getName());
+        }
+
+        System.out.println("Which teacher would you like to hire?");
+        System.out.print(">  ");
+
+        Scanner keyboard = new Scanner(System.in);
+        int choice = keyboard.nextInt();
+
+        teachers.add(avail.get(choice-1));
+    }
+
+    private void fireTeacher(int index)
+    {
+        for(int i = 0; i < teachers.size(); i++)
+        {
+            if((i+1) == index)
+            {
+                System.out.println("You have fired " + teachers.get(i).getName() + ".");
+                teachers.remove(i);
+               
+                return;
+            }
+        }
+    }
+
+    public void pay(double amt, String reason)
+    {
+        balance -= amt;
+        System.out.println("You have paid $" + amt + " for " + reason + ".");
+    }
+
+
+    public void day()
+    {
+        days++;
+        System.out.println("Day " + days + ":");
+
+        for(int i = 0; i < teachers.size(); i++)
+        {
+            teachers.get(i).work();
+
+            if(teachers.get(i).quit)
+            {
+                fireTeacher(i);
+            }
+        }
     }
 }
