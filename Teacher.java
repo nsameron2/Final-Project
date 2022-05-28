@@ -7,16 +7,17 @@ public class Teacher
 {
     String name;
     double happiness = 100;
-    double salary;
+    double salary = 15;
     double happinessFactor;
+    double teachingLevel;
 
-    public static boolean quit = true;
+    private boolean quit = false;
 
     public Teacher() throws IOException
     {
         generateName();
         happiness = Math.random()*100;
-        happinessFactor = Math.random()*0.9;
+        happinessFactor = 0.9;
     }
 
     public String getName()
@@ -70,34 +71,13 @@ public class Teacher
 
         happiness *= happinessFactor;
 
-        if(happiness < 0)
-        {
-            System.out.println(name + " wants to quit.");
-            System.out.println("1. Give Raise\n2. Fire");
-            System.out.print(">  ");
-
-            Scanner keyboard = new Scanner(System.in);
-            int choice = keyboard.nextInt();
-
-            switch(choice)
-            {
-                case 1:
-                    giveRaise(1.2);
-                    happiness = 100;
-                    break;
-                case 2:
-                    quit = true;
-                    break;
-                default:
-                    System.out.println("Invalid choice.");
-                    break;
-            }
-        }
+        
     }
 
     public void giveRaise(double raise)
     {
         salary *= raise;
+        happiness = 100;
     }
 
     public double getHappiness()
@@ -108,5 +88,10 @@ public class Teacher
     public double getSalary()
     {
         return salary;
+    }
+
+    public boolean getQuit()
+    {
+        return quit;
     }
 }

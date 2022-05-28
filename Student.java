@@ -9,6 +9,11 @@ public class Student
     private String firstName;
     private String lastName;
 
+    double happiness;
+    double happinessFactor;
+
+    boolean absent = false;
+
     public Student() throws IOException
     {
         firstName = generateName();
@@ -16,6 +21,9 @@ public class Student
         name = firstName + " " + lastName;
         gpa = Math.random()*4;
         gpa = Math.round(gpa*100.0)/100.0;
+
+        happiness = Math.random()*100;
+        happinessFactor = 0.9;
     }
 
     public String getName()
@@ -45,5 +53,31 @@ public class Student
             studentName = studentName.substring(0, 1).toUpperCase() + studentName.substring(1);
             return studentName;
         }
+    }
+
+    public void school()
+    {
+        absent = false;
+
+        int rand = (int)(Math.random()*10)+1;
+
+        if(rand == 1)
+        {
+            System.out.println(name + " is absent today.");
+            absent = true;
+            return;
+        }
+        else if(rand == 2)
+        {
+            // to be added
+            System.out.println("hi");
+        }
+        
+
+    }
+
+    public boolean isAbsent()
+    {
+        return absent;
     }
 }

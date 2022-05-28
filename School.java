@@ -50,8 +50,8 @@ public class School
     public void manage() throws IOException
     {
 
-        System.out.println("Welcome to " + getName() + " 's management system.");
-        System.out.println("What would you like to do?");
+        // System.out.println("\nWelcome to " + getName() + " 's management system.");
+        // System.out.println("What would you like to do?");
 
         
         Scanner keyboard = new Scanner(System.in);
@@ -59,7 +59,7 @@ public class School
 
         while(!exit)
         {
-            System.out.println("\n1. View Teachers\n2. View Students\n3. Manage Teachers\n4. Manage Students\n5. Manage School\n6.Next Day\n7. Exit");
+            System.out.println("\n1. View Teachers\n2. View Students\n3. View Balance\n4. Manage Teachers\n5. Manage Students\n6. Manage School\n7. Next Day\n0. Exit");
             System.out.print(">  ");
             int choice = keyboard.nextInt();
 
@@ -72,17 +72,20 @@ public class School
                     viewStudents();
                     break;
                 case 3:
-                    manageTeachers();
+                    viewBalance();
                     break;
                 case 4:
-                    manageStudents();
+                    manageTeachers();
                     break;
                 case 5:
-                    manageSchool();
+                    manageStudents();
                     break;
                 case 6:
-                    day();
+                    manageSchool();
+                    break;
                 case 7:
+                    day();
+                case 0:
                     exit = true;
                     break;
                 default:
@@ -214,11 +217,45 @@ public class School
         for(int i = 0; i < teachers.size(); i++)
         {
             teachers.get(i).work();
+            balance -= teachers.get(i).getSalary();
 
-            if(teachers.get(i).quit)
+            if(teachers.get(i).getHappiness() < (int)(Math.random()*25)+10)
+        {
+            System.out.println(teachers.get(i).getName() + " wants to quit.");
+            System.out.println("1. Give Raise\n2. Fire");
+            System.out.print(">  ");
+
+            Scanner keyboard = new Scanner(System.in);
+            int choice = keyboard.nextInt();
+
+            switch(choice)
             {
-                fireTeacher(i);
+                case 1:
+                    teachers.get(i).giveRaise(1.2);
+                    break;
+                case 2:
+                    fireTeacher(i+1);
+                    break;
+                default:
+                    System.out.println("Invalid choice.");
+                    break;
             }
         }
+        }
+
+        for(int i = 0; i < students.size(); i++)
+        {
+            students.get(i).school();
+            
+            if(!students.get(i).isAbsent())
+            {
+                balance += 5;
+            }
+        }
+    }
+
+    public void viewBalance()
+    {
+        System.out.println("\nBalance: $" + balance);
     }
 }

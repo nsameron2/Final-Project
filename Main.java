@@ -10,7 +10,15 @@ public class Main
 
         // qwertyuiop.viewTeachers();
         // qwertyuiop.viewStudents();
+        boolean exit = false;
 
-        qwertyuiop.manage();
+        System.out.println("\nWelcome to " + qwertyuiop.getName() + " 's management system.");
+        System.out.println("What would you like to do?");
+
+        while(!exit)
+        {
+            qwertyuiop.manage();
+        }
+        
     }
 }
