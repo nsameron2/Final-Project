@@ -5,12 +5,14 @@ import java.io.RandomAccessFile;
 public class Student 
 {
     private double gpa;
+    private int maxGPA;
     private String name;
     private String firstName;
     private String lastName;
 
     double happiness;
     double happinessFactor;
+    double learningLevel = 1;
 
     boolean absent = false;
 
@@ -24,16 +26,6 @@ public class Student
 
         happiness = Math.random()*100;
         happinessFactor = 0.9;
-    }
-
-    public String getName()
-    {
-        return name;
-    }
-
-    public double getGPA()
-    {
-        return gpa;
     }
 
     private String generateName() throws IOException
@@ -59,7 +51,7 @@ public class Student
     {
         absent = false;
 
-        int rand = (int)(Math.random()*10)+1;
+        int rand = (int)(Math.random()*10)*1;
 
         if(rand == 1)
         {
@@ -73,7 +65,29 @@ public class Student
             System.out.println("hi");
         }
         
+        learningLevel += 0.01;
 
+        gpa *= (Math.random()*2 + 0.5) + learningLevel;
+        gpa = Math.round(gpa*100.0)/100.0;
+
+        if(gpa > maxGPA)
+        {
+            gpa = maxGPA;
+        }
+        else if(gpa < 0)
+        {
+            gpa = 0;
+        }
+    }
+
+    public String getName()
+    {
+        return name;
+    }
+
+    public double getGPA()
+    {
+        return gpa;
     }
 
     public boolean isAbsent()

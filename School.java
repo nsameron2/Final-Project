@@ -6,19 +6,51 @@ public class School
 {
     private String name;
 
-    public double balance = 1000;
+    public double balance;
 
     int days = 0;
+    int maxStudents;
 
     ArrayList<Teacher> teachers = new ArrayList<Teacher>();
     ArrayList<Student> students = new ArrayList<Student>();
+    ArrayList<Tutor> tutors = new ArrayList<Tutor>();
     
     public School(String n) throws IOException
     {
         name = n;
 
-        makeTeachers(3);
-        makeStudents(10);
+        System.out.println("Please choose a starting pacakge.");
+        System.out.println("1. Balance: $2000\tTeachers: 1\tStudents: 5");
+        System.out.println("2. Balance: $1500\tTeachers: 2\tStudents: 10");
+        System.out.println("3. Balance: $1000\tTeachers: 3\tStudents: 15");
+        
+        System.out.print("> ");
+
+        Scanner keyboard = new Scanner(System.in);
+        int choice = keyboard.nextInt();
+
+        switch(choice)
+        {
+            case 1:
+                balance = 2000;
+                makeTeachers(1);
+                makeStudents(5);
+                break;
+
+            case 2:
+                balance = 1500;
+                makeTeachers(2);
+                makeStudents(10);
+                break;
+
+            case 3:
+                balance = 1000;
+                makeTeachers(3);
+                makeStudents(15);
+                break;
+        }
+
+        calculateMaxStudents();
     }
 
     public String getName()
@@ -45,6 +77,10 @@ public class School
         }
     }
 
+    public void calculateMaxStudents()
+    {
+        maxStudents = teachers.size() * 10;
+    }
 
 
     public void manage() throws IOException
@@ -59,32 +95,70 @@ public class School
 
         while(!exit)
         {
-            System.out.println("\n1. View Teachers\n2. View Students\n3. View Balance\n4. Manage Teachers\n5. Manage Students\n6. Manage School\n7. Next Day\n0. Exit");
+            System.out.println("\n1. View Stats\n2. Manage\n3. Next Day\n0. Exit");
             System.out.print(">  ");
             int choice = keyboard.nextInt();
 
             switch(choice)
             {
                 case 1:
+                    System.out.println("What would you like to view?");
+                    System.out.println("1. Teachers\n2. Students\n3. Tutors\n4. School Stats\n5. Exit");
+                    System.out.print("> ");
+
+                    choice = keyboard.nextInt();
+
+                    switch(choice)
+                    {
+                        case 1:
+                            viewTeachers();
+                            break;
+                        case 2:
+                            viewStudents();
+                            break;
+                        case 3:
+                            viewTutors();
+                            break;
+                        case 4:
+                            viewStats();
+                            break;
+                        case 5:
+                            break;
+                        default:
+                            System.out.println("Invalid choice.");
+                            break;
+                    }
+
                     viewTeachers();
                     break;
                 case 2:
-                    viewStudents();
+                    System.out.println("What would you like to manage?");
+                    System.out.println("1. Teachers\n2. Students\n3. Tutors\n4. Exit");
+                    System.out.print("> ");
+
+                    choice = keyboard.nextInt();
+
+                    switch(choice)
+                    {
+                        case 1:
+                            manageTeachers();
+                            break;
+                        case 2:
+                            manageStudents();
+                            break;
+                        case 3:
+                            manageTutors();
+                            break;
+                        case 4:
+                            break;
+                        default:
+                            System.out.println("Invalid choice.");
+                            break;
+                    }
                     break;
                 case 3:
-                    viewBalance();
-                    break;
-                case 4:
-                    manageTeachers();
-                    break;
-                case 5:
-                    manageStudents();
-                    break;
-                case 6:
-                    manageSchool();
-                    break;
-                case 7:
                     day();
+                    break;
                 case 0:
                     exit = true;
                     break;
@@ -114,6 +188,20 @@ public class School
         }
     }
 
+    public void viewTutors()
+    {
+        System.out.println("\n\u001B[36m" + "Tutors: " + "\u001B[0m");
+        for(int i = 0; i < tutors.size(); i++)
+        {
+            System.out.println((i+1) + ". " + tutors.get(i).getName() + "\t\tHappiness: " + tutors.get(i).getHappiness() + "\tSalary: " + tutors.get(i).getSalary());
+        }
+    }
+
+    public void viewStats()
+    {
+        System.out.println("Balance: $" + balance);
+    }
+
     public void manageTeachers() throws IOException
     {
         boolean exit = false;
@@ -121,7 +209,7 @@ public class School
         while(!exit)
         {
             System.out.println("\nWhat would you like to do?");
-            System.out.println("1. View Teachers 2. Hire Teacher\n3. Fire Teacher\n4. Exit");
+            System.out.println("1. View Teachers\n2. Hire Teacher\n3. Fire Teacher\n4. Exit");
             System.out.print(">  ");
 
             int choice = keyboard.nextInt();
@@ -132,7 +220,6 @@ public class School
                     viewTeachers();
                     break;
                 case 2:
-
                     hireTeacher();
                     break;
                 case 3:
@@ -159,14 +246,48 @@ public class School
         
     }
 
-    public void manageSchool()
+    public void manageTutors() throws IOException
     {
-        
+        boolean exit = false;
+        Scanner keyboard = new Scanner(System.in);
+        while(!exit)
+        {
+            System.out.println("\nWhat would you like to do?");
+            System.out.println("1. View Tutors\n2. Hire Tutor\n3. Fire Tutor\n4. Exit");
+            System.out.print(">  ");
+
+            int choice = keyboard.nextInt();
+
+            switch(choice)
+            {
+                case 1:
+                    viewTutors();
+                    break;
+                case 2:
+                    hireTutor();
+                    break;
+                case 3:
+                    viewTutors();
+                    System.out.println("Which tutor would you like to fire?");
+                    System.out.print(">  ");
+
+                    choice = keyboard.nextInt();
+
+                    fireTutor(choice);
+                    break;
+                case 4:
+                    exit = true;
+                    break;
+                default:
+                    System.out.println("Invalid choice.");
+                    break;
+            }
+        }
     }
 
     private void hireTeacher() throws IOException
     {
-        int rand = (int)(Math.random()*5)+3;
+        int rand = (int)(Math.random()*2)+3;
         ArrayList<Teacher> avail = new ArrayList<Teacher>();
         for(int i = 0; i < rand; i++)
         {
@@ -186,6 +307,32 @@ public class School
         int choice = keyboard.nextInt();
 
         teachers.add(avail.get(choice-1));
+
+        calculateMaxStudents();
+    }
+
+    private void hireTutor() throws IOException
+    {
+        int rand = (int)(Math.random()*2)+3;
+        ArrayList<Tutor> avail = new ArrayList<Tutor>();
+        for(int i = 0; i < rand; i++)
+        {
+            Tutor temp = new Tutor();
+            avail.add(temp);
+        }
+
+        for(int i = 0; i < avail.size(); i++)
+        {
+            System.out.println((i+1) + ". " + avail.get(i).getName());
+        }
+
+        System.out.println("Which tutor would you like to hire?");
+        System.out.print(">  ");
+
+        Scanner keyboard = new Scanner(System.in);
+        int choice = keyboard.nextInt();
+
+        tutors.add(avail.get(choice-1));
     }
 
     private void fireTeacher(int index)
@@ -196,6 +343,20 @@ public class School
             {
                 System.out.println("You have fired " + teachers.get(i).getName() + ".");
                 teachers.remove(i);
+               
+                return;
+            }
+        }
+    }
+
+    private void fireTutor(int index)
+    {
+        for(int i = 0; i < tutors.size(); i++)
+        {
+            if((i+1) == index)
+            {
+                System.out.println("You have fired " + tutors.get(i).getName() + ".");
+                tutors.remove(i);
                
                 return;
             }
@@ -249,7 +410,7 @@ public class School
             
             if(!students.get(i).isAbsent())
             {
-                balance += 5;
+                balance += 1 * students.get(i).getGPA();
             }
         }
     }
