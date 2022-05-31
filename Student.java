@@ -4,7 +4,7 @@ import java.io.RandomAccessFile;
 
 public class Student 
 {
-    private double gpa;
+    double gpa;
     private int maxGPA;
     private String name;
     private String firstName;
@@ -67,17 +67,16 @@ public class Student
         
         learningLevel += 0.01;
 
-        gpa *= (Math.random()*2 + 0.5) + learningLevel;
-        gpa = Math.round(gpa*100.0)/100.0;
+        gpa *= (Math.random()*1 + 0.5) * learningLevel;
 
-        if(gpa > maxGPA)
-        {
-            gpa = maxGPA;
-        }
-        else if(gpa < 0)
-        {
-            gpa = 0;
-        }
+        checkGPA();
+        
+    }
+
+    public void study()
+    {
+        gpa *= (1.1*learningLevel);
+        checkGPA();
     }
 
     public String getName()
@@ -93,5 +92,19 @@ public class Student
     public boolean isAbsent()
     {
         return absent;
+    }
+
+    public void checkGPA()
+    {
+        gpa = Math.round(gpa*100.0)/100.0;
+
+        if(gpa > maxGPA)
+        {
+            gpa = maxGPA;
+        }
+        else if(gpa < 0)
+        {
+            gpa = 0;
+        }
     }
 }

@@ -128,8 +128,6 @@ public class School
                             System.out.println("Invalid choice.");
                             break;
                     }
-
-                    viewTeachers();
                     break;
                 case 2:
                     System.out.println("What would you like to manage?");
@@ -370,7 +368,7 @@ public class School
     }
 
 
-    public void day()
+    public void day() throws IOException
     {
         days++;
         System.out.println("Day " + days + ":");
@@ -381,7 +379,7 @@ public class School
             balance -= teachers.get(i).getSalary();
 
             if(teachers.get(i).getHappiness() < (int)(Math.random()*25)+10)
-        {
+            {
             System.out.println(teachers.get(i).getName() + " wants to quit.");
             System.out.println("1. Give Raise\n2. Fire");
             System.out.print(">  ");
@@ -401,7 +399,7 @@ public class School
                     System.out.println("Invalid choice.");
                     break;
             }
-        }
+            }
         }
 
         for(int i = 0; i < students.size(); i++)
@@ -413,10 +411,37 @@ public class School
                 balance += 1 * students.get(i).getGPA();
             }
         }
+
+        for(int i = 0; i < tutors.size(); i++)
+        {
+            for(int a = 0; a < students.size(); a++)
+            {
+                students.get(a).study();
+            }
+        }
+
+        for(int i = students.size(); i < teachers.size()*10; i++)
+        {
+            int rand = (int)(Math.random()*3);
+
+            if(rand == 0)
+            {
+                students.add(new Student());
+                System.out.println(students.get(students.size()-1).getName() + " has joined the school.");
+            }
+        }
     }
 
     public void viewBalance()
     {
         System.out.println("\nBalance: $" + balance);
+    }
+
+    public void newStudent(int amount) throws IOException
+    {
+        for(int i = 0; i < amount; i++)
+        {
+            students.add(new Student());
+        }
     }
 }
