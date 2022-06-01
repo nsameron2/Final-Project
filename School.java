@@ -19,7 +19,7 @@ public class School
     {
         name = n;
 
-        System.out.println("Please choose a starting pacakge.");
+        System.out.println("\u001B[36m" + "Please choose a starting pacakge." + "\u001B[0m");
         System.out.println("1. Balance: $2000\tTeachers: 1\tStudents: 5");
         System.out.println("2. Balance: $1500\tTeachers: 2\tStudents: 10");
         System.out.println("3. Balance: $1000\tTeachers: 3\tStudents: 15");
@@ -102,7 +102,7 @@ public class School
             switch(choice)
             {
                 case 1:
-                    System.out.println("What would you like to view?");
+                    System.out.println("\nWhat would you like to view?");
                     System.out.println("1. Teachers\n2. Students\n3. Tutors\n4. School Stats\n5. Exit");
                     System.out.print("> ");
 
@@ -130,8 +130,8 @@ public class School
                     }
                     break;
                 case 2:
-                    System.out.println("What would you like to manage?");
-                    System.out.println("1. Teachers\n2. Students\n3. Tutors\n4. Exit");
+                    System.out.println("\nWhat would you like to manage?");
+                    System.out.println("1. Teachers\n2. Tutors\n3. Exit");
                     System.out.print("> ");
 
                     choice = keyboard.nextInt();
@@ -142,12 +142,9 @@ public class School
                             manageTeachers();
                             break;
                         case 2:
-                            manageStudents();
-                            break;
-                        case 3:
                             manageTutors();
                             break;
-                        case 4:
+                        case 3:
                             break;
                         default:
                             System.out.println("Invalid choice.");
@@ -173,7 +170,7 @@ public class School
         System.out.println("\n\u001B[32m" + "Teachers: " + "\u001B[0m");
         for(int i = 0; i < teachers.size(); i++)
         {
-            System.out.println((i+1) + ". " + teachers.get(i).getName() + "\tHappiness: " + teachers.get(i).getHappiness() + "\tSalary: " + teachers.get(i).getSalary());
+            System.out.println((i+1) + ". " + teachers.get(i).getName() + "\t\u001B[33mHappiness: \u001B[0m" + Math.round(teachers.get(i).getHappiness()*100.0)/100.0 + "\t\u001B[32mSalary: \u001B[0m" + teachers.get(i).getSalary());
         }
     }
 
@@ -197,7 +194,11 @@ public class School
 
     public void viewStats()
     {
+        System.out.println("\u001B[35m" + name + " School:" + "\u001B[0m");
+        System.out.println("Student Capacity: " + students.size() + "/" + maxStudents);
         System.out.println("Balance: $" + balance);
+        System.out.println("Average GPA: " + averageGPA());
+        System.out.println("Average Happiness: " + averageHappiness());
     }
 
     public void manageTeachers() throws IOException
@@ -237,11 +238,6 @@ public class School
                     break;
             }
         }
-    }
-
-    public void manageStudents()
-    {
-        
     }
 
     public void manageTutors() throws IOException
@@ -298,7 +294,7 @@ public class School
             System.out.println((i+1) + ". " + avail.get(i).getName());
         }
 
-        System.out.println("Which teacher would you like to hire?");
+        System.out.println("\u001B[36m" + "Which teacher would you like to hire?" + "\u001B[0m");
         System.out.print(">  ");
 
         Scanner keyboard = new Scanner(System.in);
@@ -324,7 +320,7 @@ public class School
             System.out.println((i+1) + ". " + avail.get(i).getName());
         }
 
-        System.out.println("Which tutor would you like to hire?");
+        System.out.println("\u001B[36m" + "Which tutor would you like to hire?" + "\u001B[0m");
         System.out.print(">  ");
 
         Scanner keyboard = new Scanner(System.in);
@@ -339,7 +335,7 @@ public class School
         {
             if((i+1) == index)
             {
-                System.out.println("You have fired " + teachers.get(i).getName() + ".");
+                System.out.println("\u001B[31m" + "You have fired " + teachers.get(i).getName() + "." + "\u001B[0m");
                 teachers.remove(i);
                
                 return;
@@ -353,7 +349,7 @@ public class School
         {
             if((i+1) == index)
             {
-                System.out.println("You have fired " + tutors.get(i).getName() + ".");
+                System.out.println("\u001B[31m" + "You have fired " + tutors.get(i).getName() + "." + "\u001B[0m");
                 tutors.remove(i);
                
                 return;
@@ -364,7 +360,7 @@ public class School
     public void pay(double amt, String reason)
     {
         balance -= amt;
-        System.out.println("You have paid $" + amt + " for " + reason + ".");
+        System.out.println("\u001B[32m" + "You have paid $" + amt + " for " + reason + "." + "\u001B[0m");
     }
 
 
@@ -380,7 +376,7 @@ public class School
 
             if(teachers.get(i).getHappiness() < (int)(Math.random()*25)+10)
             {
-            System.out.println(teachers.get(i).getName() + " wants to quit.");
+            System.out.println("\u001B[31m" + teachers.get(i).getName() + " wants to quit." + "\u001B[0m");
             System.out.println("1. Give Raise\n2. Fire");
             System.out.print(">  ");
 
@@ -391,6 +387,7 @@ public class School
             {
                 case 1:
                     teachers.get(i).giveRaise(1.2);
+                    System.out.println("You have given " + teachers.get(i).getName() + " a raise. Their salary is now $" + teachers.get(i).getSalary() + " a day.");
                     break;
                 case 2:
                     fireTeacher(i+1);
@@ -414,6 +411,8 @@ public class School
 
         for(int i = 0; i < tutors.size(); i++)
         {
+            balance -= tutors.get(i).getSalary();
+
             for(int a = 0; a < students.size(); a++)
             {
                 students.get(a).study();
@@ -443,5 +442,33 @@ public class School
         {
             students.add(new Student());
         }
+    }
+
+    public double averageGPA()
+    {
+        double totalGPA = 0;
+
+        for(int i = 0; i < students.size(); i++)
+        {
+            totalGPA += students.get(i).getGPA();
+        }
+
+        double aGPA = totalGPA / students.size();
+        aGPA = Math.round(aGPA*100.0)/100.0;
+        return aGPA;
+    }
+
+    public double averageHappiness()
+    {
+        double totalHappiness = 0;
+
+        for(int i = 0; i < teachers.size(); i++)
+        {
+            totalHappiness += teachers.get(i).getHappiness();
+        }
+
+        double aHappiness = totalHappiness / teachers.size();
+        aHappiness = Math.round(aHappiness*100.0)/100.0;
+        return aHappiness;
     }
 }

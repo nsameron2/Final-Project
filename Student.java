@@ -55,14 +55,9 @@ public class Student
 
         if(rand == 1)
         {
-            System.out.println(name + " is absent today.");
+            System.out.println("\u001B[33m" + name + " is absent today." + "\u001B[0m");
             absent = true;
             return;
-        }
-        else if(rand == 2)
-        {
-            // to be added
-            System.out.println("hi");
         }
         
         learningLevel += 0.01;
@@ -75,7 +70,7 @@ public class Student
 
     public void study()
     {
-        gpa *= (1.1*learningLevel);
+        gpa *= (2*learningLevel);
         checkGPA();
     }
 
@@ -102,9 +97,9 @@ public class Student
         {
             gpa = maxGPA;
         }
-        else if(gpa < 0)
+        else if(gpa < 1)
         {
-            gpa = 0;
+            gpa = 1;
         }
     }
 }

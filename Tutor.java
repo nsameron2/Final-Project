@@ -9,7 +9,7 @@ public class Tutor extends Teacher
     {
         super();
 
-        salary *= 5;
+        salary *= 3.0;
     }
 
     public void generateName() throws IOException
