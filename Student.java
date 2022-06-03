@@ -5,7 +5,7 @@ import java.io.RandomAccessFile;
 public class Student 
 {
     double gpa;
-    private int maxGPA;
+    private int maxGPA = 4;
     private String name;
     private String firstName;
     private String lastName;
@@ -21,8 +21,9 @@ public class Student
         firstName = generateName();
         lastName = generateName();
         name = firstName + " " + lastName;
-        gpa = Math.random()*4;
+        gpa = (Math.random()*4)+2;
         gpa = Math.round(gpa*100.0)/100.0;
+        checkGPA();
 
         happiness = Math.random()*100;
         happinessFactor = 0.9;
@@ -62,7 +63,15 @@ public class Student
         
         learningLevel += 0.01;
 
-        gpa *= (Math.random()*1 + 0.5) * learningLevel;
+        double randGPA = (Math.random()*0.5 + 1) * learningLevel;
+        if(rand <= 5)
+        {
+            gpa -= randGPA;
+        }
+        else
+        {
+            gpa += randGPA;
+        }
 
         checkGPA();
         
@@ -70,6 +79,7 @@ public class Student
 
     public void study()
     {
+        checkGPA();
         gpa *= (2*learningLevel);
         checkGPA();
     }
@@ -91,7 +101,7 @@ public class Student
 
     public void checkGPA()
     {
-        gpa = Math.round(gpa*100.0)/100.0;
+        //gpa = Math.round(gpa*100.0)/100.0;
 
         if(gpa > maxGPA)
         {

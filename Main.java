@@ -5,6 +5,8 @@ public class Main
 {
     public static void main(String[] args) throws IOException
     {
+        System.out.println(Math.random()*2+1);
+
         System.out.println("What would you like to name your school?");
         System.out.print("> ");
 
