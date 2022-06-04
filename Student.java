@@ -64,7 +64,7 @@ public class Student
         learningLevel += 0.01;
 
         double randGPA = (Math.random()*0.5 + 1) * learningLevel;
-        if(rand <= 5)
+        if(rand <= 7)
         {
             gpa -= randGPA;
         }

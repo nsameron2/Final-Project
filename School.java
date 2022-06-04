@@ -196,7 +196,7 @@ public class School
     {
         System.out.println("\u001B[35m" + name + " School:" + "\u001B[0m");
         System.out.println("Student Capacity: " + students.size() + "/" + maxStudents);
-        System.out.println("Balance: $" + balance);
+        System.out.println("Balance: $" + Math.round(balance*100.0)/100.0);
         System.out.println("Average GPA: " + averageGPA());
         System.out.println("Average Happiness: " + averageHappiness());
     }
@@ -405,7 +405,7 @@ public class School
             
             if(!students.get(i).isAbsent())
             {
-                balance += 1 * students.get(i).getGPA();
+                balance += 0.5 * students.get(i).getGPA();
             }
         }
 
